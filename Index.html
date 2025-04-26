@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Happy Birthday!</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        height: 100%;
+        font-family: "Comic Relief", cursive;
+        background: #000;
+        color: #fff;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      .countdown-page,
+      .main-page {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition: opacity 1s ease;
+      }
+      .countdown-page {
+        background: rgba(0, 0, 0, 0.9);
+        font-size: 5em;
+        z-index: 10;
+      }
+      .main-page {
+        background: url("https://images.unsplash.com/photo-1600673042163-2e3c7a03a2a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")
+          no-repeat center center/cover;
+        background-attachment: fixed;
+        opacity: 0;
+        pointer-events: none;
+        text-align: center;
+      }
+      h1 {
+        margin-top: 30px;
+        font-size: 3em;
+      }
+      .typing {
+        border-right: 0.15em solid #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        opacity: 0;
+      }
+      .gallery {
+        margin: 40px 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+      }
+      .gallery img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.3);
+      }
+      .letter {
+        margin: 40px auto;
+        width: 200px;
+        height: 120px;
+        background: #fff;
+        color: #333;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+      }
+      .letter-content {
+        display: none;
+        padding: 20px;
+        background: #fff;
+        color: #333;
+        border-radius: 10px;
+        position: absolute;
+        top: 100%;
+        width: 90%;
+        max-width: 500px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        font-size: 1em;
+      }
+      select,
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background: #1e90ff;
+        color: #fff;
+        font-size: 1em;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      button:hover,
+      select:hover {
+        background: #4169e1;
+      }
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="countdown-page" id="countdownPage">
+      <div id="count">3</div>
+    </div>
+
+    <div class="main-page" id="mainPage">
+      <h1 class="typing" id="typingText"></h1>
+
+      <div class="gallery">
+        <img src="images/yayu3.jpg" alt="Foto 1" />
+        <img src="images/yayu4.jpg" alt="Foto 2" />
+        <img src="images/yayu8.jpg" alt="Foto 3" />
+        <img src="images/yayu5.jpeg" alt="Foto 4" />
+        <img src="images/yayu6.jpg" alt="Foto 5" />
+        <img src="images/Yayu7.jpg" alt="Foto 6" />
+        <img src="images/Yayu2.jpeg" alt="Foto 7" />
+        <img src="images/yayu1.jpeg" alt="Foto 8" />
+      </div>
+
+      <div class="letter" onclick="openLetter()">
+        📩 Klik untuk baca surat
+        <div class="letter-content" id="letterContent">
+          Happy Birthday, Yayuuuu 🥳🎉 <br /><br />
+          Di hari yang penuh kebahagiaan ini, Putri ingin mengucapkan terima
+          kasih atas segala kasih sayang, bimbingan, dan keteladanan yang selalu
+          Yayu berikan tanpa kenal lelah. Semoga di usia Yayu yang baru ini,
+          segala doa dan harapan Yayu dikabulkan. Semoga kesehatan, kebahagiaan,
+          dan kesuksesan selalu menyertai di setiap langkah Yayu. Teruslah
+          menjadi sosok yang menginspirasi dan membanggakan bagi Putri dan
+          Denis, Yuu. Semoga Allah selalu melindungimu, memberkahi jalan hidup
+          Yayu, dan menjadikan setiap hari Yayu penuh berkah serta kebahagiaan.
+          Sekali lagi, selamat ulang tahun, Yayuuu. <br /><br />
+          Mimi, Putri, dan Denis menyayangimu dengan sepenuh hati 🤍
+          <br /><br />
+          Dengan penuh cinta dan rasa hormat,<br />
+          - Your Sister 😎
+        </div>
+      </div>
+
+      <select id="songSelector" onchange="changeSong()">
+        <option value="">-- Pilih Lagu --</option>
+        <option value="music/Tulus_Monokrom.mp3">Monokrom - Tulus</option>
+        <option value="music/Selalu Ada di Nadimu.mp3">
+          Selalu Ada di Nadimu - Prince Poetiray & Quinn Salman
+        </option>
+        <option value="music/Tumbuh.mp3">Tumbuh - Nosstress</option>
+        <option value="music/Perunggu_Pastikan Riuh Akhiri Malammu.mp3">
+          Pastikan Riuh Akhiri Malammu - Perunggu
+        </option>
+        <option value="music/Sal Priadi_Besok Kita Pergi Makan.mp3">
+          Besok Kita Pergi Makan - Sal Priadi
+        </option>
+      </select>
+
+      <br />
+      <button onclick="playMusic()">Play 🎵</button>
+    </div>
+
+    <audio id="bgMusic" loop></audio>
+
+    <canvas id="fireworks"></canvas>
+    <canvas id="stars"></canvas>
+
+    <script>
+      // Countdown
+      let count = 3;
+      const countElement = document.getElementById("count");
+      const countdownPage = document.getElementById("countdownPage");
+      const mainPage = document.getElementById("mainPage");
+      const typingText = document.getElementById("typingText");
+
+      const timer = setInterval(() => {
+        count--;
+        countElement.innerText = count;
+        if (count === 0) {
+          clearInterval(timer);
+          countdownPage.style.opacity = "0";
+          setTimeout(() => {
+            countdownPage.style.display = "none";
+            mainPage.style.opacity = "1";
+            mainPage.style.pointerEvents = "auto";
+            launchFireworks();
+          }, 1000);
+        }
+      }, 1000);
+
+      // Fireworks
+      function launchFireworks() {
+        const canvas = document.getElementById("fireworks");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        const fireworks = [];
+
+        function random(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        class Firework {
+          constructor() {
+            this.x = random(0, canvas.width);
+            this.y = canvas.height;
+            this.targetY = random(canvas.height / 2, canvas.height / 4);
+            this.color = `hsl(${Math.floor(Math.random() * 360)},100%,50%)`;
+            this.radius = 2;
+            this.speed = random(3, 6);
+            this.exploded = false;
+            this.particles = [];
+          }
+          update() {
+            if (!this.exploded) {
+              this.y -= this.speed;
+              if (this.y < this.targetY) {
+                this.exploded = true;
+                for (let i = 0; i < 30; i++) {
+                  this.particles.push(new Particle(this.x, this.y, this.color));
+                }
+              }
+            }
+            this.particles.forEach((p) => p.update());
+          }
+          draw() {
+            if (!this.exploded) {
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+              ctx.fillStyle = this.color;
+              ctx.fill();
+            }
+            this.particles.forEach((p) => p.draw());
+          }
+        }
+
+        class Particle {
+          constructor(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.speedX = random(-3, 3);
+            this.speedY = random(-3, 3);
+            this.radius = 2;
+            this.alpha = 1;
+          }
+          update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.alpha -= 0.02;
+          }
+          draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+            ctx.restore();
+          }
+        }
+
+        let duration = 5000;
+        const startTime = Date.now();
+
+        function animate() {
+          const elapsed = Date.now() - startTime;
+          ctx.fillStyle = "rgba(0,0,0,0.2)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          fireworks.forEach((f, index) => {
+            f.update();
+            f.draw();
+            if (f.exploded && f.particles.length === 0) {
+              fireworks.splice(index, 1);
+            }
+          });
+          if (elapsed < duration) {
+            if (Math.random() < 0.05) {
+              fireworks.push(new Firework());
+            }
+            requestAnimationFrame(animate);
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = "none";
+            startTyping();
+          }
+        }
+        animate();
+      }
+
+      // Typing Effect
+      const text = "Happy Birthday 🎉";
+      let index = 0;
+      function startTyping() {
+        typingText.style.opacity = "1";
+        const typeInterval = setInterval(() => {
+          typingText.textContent += text[index];
+          index++;
+          if (index === text.length) {
+            clearInterval(typeInterval);
+          }
+        }, 150);
+      }
+
+      // Buka surat
+      function openLetter() {
+        const content = document.getElementById("letterContent");
+        content.style.display =
+          content.style.display === "block" ? "none" : "block";
+      }
+
+      // Musik
+      function changeSong() {
+        const bgMusic = document.getElementById("bgMusic");
+        const selector = document.getElementById("songSelector");
+        bgMusic.src = selector.value;
+      }
+
+      function playMusic() {
+        document.getElementById("bgMusic").play();
+      }
+
+      // Bintang jatuh (meteor)
+      const starCanvas = document.getElementById("stars");
+      const starCtx = starCanvas.getContext("2d");
+      function resizeStars() {
+        starCanvas.width = window.innerWidth;
+        starCanvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeStars);
+      resizeStars();
+
+      const stars = Array.from({ length: 100 }, () => ({
+        x: Math.random() * starCanvas.width,
+        y: Math.random() * starCanvas.height,
+        radius: Math.random() * 1.5,
+        speedX: Math.random() * -0.5,
+        speedY: Math.random() * 0.5,
+      }));
+
+      function animateStars() {
+        starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+        starCtx.fillStyle = "#fff";
+        stars.forEach((star) => {
+          star.x += star.speedX;
+          star.y += star.speedY;
+          if (star.x < 0 || star.y > starCanvas.height) {
+            star.x = Math.random() * starCanvas.width;
+            star.y = 0;
+          }
+          starCtx.beginPath();
+          starCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          starCtx.fill();
+        });
+        requestAnimationFrame(animateStars);
+      }
+      animateStars();
+    </script>
+  </body>
+</html>
