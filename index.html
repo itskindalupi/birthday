@@ -149,23 +149,6 @@
         <img src="images/yayu1.jpeg" alt="Foto 8" />
       </div>
 
-      <!-- Musik Autoplay -->
-      <audio autoplay loop muted playsinline id="bg-music">
-        <source src="music/Selalu Ada di Nadimu.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-
-      <!-- Script untuk unmute pas user klik -->
-      <script>
-        window.addEventListener(
-          "click",
-          () => {
-            document.getElementById("bg-music").muted = false;
-          },
-          { once: true }
-        );
-      </script>
-
       <div class="letter" onclick="openLetter()">
         📩 Klik untuk baca surat
         <div class="letter-content" id="letterContent">
